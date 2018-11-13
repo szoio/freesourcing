@@ -35,16 +35,16 @@ trait EventSourcingSimplest {
 
     type EL[A] = EitherK[E, L, A]
     type FEL[A] = Free[EL, A]
-    def el2M: EL ~> M = e2M or l2M
 
-    val e2MLogged = new (E ~> M) {
+    val e2MLogged: E ~> M = new (E ~> M) {
       override def apply[A](ea: E[A]): M[A] = {
+        // interleave the apple and logging instructions
         val fEL: Free[EL, A] = for {
           _ <- Append(List(asEventSpec(ea))).inject[EL]
           ea <- Free.liftF[E, A](ea).inject[EL]
         } yield ea
 
-        fEL.foldMap(el2M)
+        fEL.foldMap(e2M or l2M)
       }
     }
 

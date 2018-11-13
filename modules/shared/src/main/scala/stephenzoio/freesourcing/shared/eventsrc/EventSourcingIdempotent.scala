@@ -8,7 +8,7 @@ import cats.free.Free
 import stephenzoio.freesourcing.shared.free.FreeOp
 import cats.implicits._
 
-trait EventSourcingIdempotont {
+trait EventSourcingIdempotent {
 
   // abstract definitions
   type C[_] // command
@@ -37,7 +37,6 @@ trait EventSourcingIdempotont {
 
     type EL[A] = EitherK[E, L, A]
     type FEL[A] = Free[EL, A]
-    def el2M: EL ~> M = e2M or l2M
 
     val e2MLogged = new (E ~> M) {
       override def apply[A](ea: E[A]): M[A] = {
@@ -46,7 +45,7 @@ trait EventSourcingIdempotont {
           ea <- Free.liftF[E, A](ea).inject[EL]
         } yield ea
 
-        fEL.foldMap(el2M)
+        fEL.foldMap(e2M or l2M)
       }
     }
 
