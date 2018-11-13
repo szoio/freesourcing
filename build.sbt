@@ -4,7 +4,7 @@ import sbtrelease.ReleaseStateTransformations._
 name := "freesourcing"
 val gitlabProjectName = "freesourcing"
 
-val scalaV = "2.12.6"
+val scalaV = "2.12.7"
 scalaVersion in ThisBuild := scalaV
 organization in ThisBuild := "stephenzoio"
 
@@ -23,11 +23,9 @@ cancelable in Global := true
 
 resolvers in Global ++= Seq(
   Resolver.sonatypeRepo("releases"),
-  Resolver.sonatypeRepo("snapshots"),
-  "twitter-repo" at "https://maven.twttr.com"
+  Resolver.sonatypeRepo("snapshots")
 )
 
-// ---- strict and advanced scalac ----
 
 scalacOptions in ThisBuild := Seq(
   // following two lines must be "together"

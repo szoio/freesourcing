@@ -22,9 +22,9 @@ object domain {
   }
 
   final case class Reservation(reservationId: UUID,
-                         accountId: UUID,
-                         description: String,
-                         amount: BigDecimal,
-                         state: ReservationState)
+                               accountId: UUID,
+                               description: String,
+                               amount: BigDecimal,
+                               state: ReservationState)
   final case class Account(accountId: UUID, userName: String, balance: BigDecimal)
 }
